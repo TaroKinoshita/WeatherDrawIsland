@@ -44,34 +44,58 @@ class WeatherDataset(Dataset):
         
         return image, label
 
-# ========== CNNモデル定義 ==========
+# ========== 強化版CNNモデル ==========
 class SimpleCNN(nn.Module):
     def __init__(self):
         super(SimpleCNN, self).__init__()
         
-        # 畳み込み層
-        self.conv1 = nn.Conv2d(1, 16, kernel_size=3, padding=1)  # 28x28 -> 28x28
-        self.conv2 = nn.Conv2d(16, 32, kernel_size=3, padding=1) # 14x14 -> 14x14
-        self.conv3 = nn.Conv2d(32, 64, kernel_size=3, padding=1) # 7x7 -> 7x7
+        # 畳み込み層（チャンネル数増加）
+        self.conv1 = nn.Conv2d(1, 32, kernel_size=3, padding=1)
+        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
+        self.conv3 = nn.Conv2d(64, 128, kernel_size=3, padding=1)
+        
+        # Batch Normalization
+        self.bn1 = nn.BatchNorm2d(32)
+        self.bn2 = nn.BatchNorm2d(64)
+        self.bn3 = nn.BatchNorm2d(128)
         
         # プーリング層
         self.pool = nn.MaxPool2d(2, 2)
         
-        # 全結合層
-        self.fc1 = nn.Linear(64 * 3 * 3, 128)
-        self.fc2 = nn.Linear(128, 3)  # 3クラス分類
+        # 全結合層（ニューロン数増加）
+        self.fc1 = nn.Linear(128 * 3 * 3, 256)
+        self.fc2 = nn.Linear(256, 3)
         
         # 活性化関数・ドロップアウト
         self.relu = nn.ReLU()
         self.dropout = nn.Dropout(0.5)
     
     def forward(self, x):
-        x = self.pool(self.relu(self.conv1(x)))  # 28x28 -> 14x14
-        x = self.pool(self.relu(self.conv2(x)))  # 14x14 -> 7x7
-        x = self.pool(self.relu(self.conv3(x)))  # 7x7 -> 3x3
+        # 28x28 -> 14x14
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = self.relu(x)
+        x = self.pool(x)
         
-        x = x.view(-1, 64 * 3 * 3)  # 平坦化
-        x = self.dropout(self.relu(self.fc1(x)))
+        # 14x14 -> 7x7
+        x = self.conv2(x)
+        x = self.bn2(x)
+        x = self.relu(x)
+        x = self.pool(x)
+        
+        # 7x7 -> 3x3
+        x = self.conv3(x)
+        x = self.bn3(x)
+        x = self.relu(x)
+        x = self.pool(x)
+        
+        # 平坦化
+        x = x.view(-1, 128 * 3 * 3)
+        
+        # 全結合層
+        x = self.fc1(x)
+        x = self.relu(x)
+        x = self.dropout(x)
         x = self.fc2(x)
         
         return x
@@ -82,10 +106,16 @@ def train_model():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Using device: {device}")
     
-    # データ前処理
+    # データ拡張を含む前処理
     transform = transforms.Compose([
+        transforms.RandomRotation(15),              # ±15度回転
+        transforms.RandomAffine(                    # 位置・スケール変動
+            degrees=0,
+            translate=(0.1, 0.1),
+            scale=(0.9, 1.1)
+        ),
         transforms.ToTensor(),
-        transforms.Normalize((0.5,), (0.5,))  # 正規化
+        transforms.Normalize((0.5,), (0.5,))
     ])
     
     # データセット読み込み
@@ -102,10 +132,13 @@ def train_model():
     # モデル・損失関数・最適化手法
     model = SimpleCNN().to(device)
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    optimizer = optim.Adam(model.parameters(), lr=0.0003)  # 学習率を下げる
+    
+    # 学習率スケジューラ（オプション：精度が停滞したら学習率を下げる）
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.5, patience=10, verbose=True)
     
     # 学習
-    num_epochs = 30
+    num_epochs = 80
     best_acc = 0.0
     
     for epoch in range(num_epochs):
@@ -146,6 +179,9 @@ def train_model():
         
         val_acc = 100 * val_correct / val_total
         
+        # 学習率スケジューラ更新
+        scheduler.step(val_acc)
+        
         print(f"Epoch [{epoch+1}/{num_epochs}] "
               f"Train Loss: {train_loss/len(train_loader):.4f}, "
               f"Train Acc: {train_acc:.2f}%, "
@@ -154,26 +190,26 @@ def train_model():
         # ベストモデル保存
         if val_acc > best_acc:
             best_acc = val_acc
-            torch.save(model.state_dict(), 'drawing_model.pth')
+            torch.save(model.state_dict(), 'weather_model_v6.pth')
             print(f"  → Best model saved! (Val Acc: {val_acc:.2f}%)")
     
     print(f"\nTraining finished. Best validation accuracy: {best_acc:.2f}%")
     
     # ONNXエクスポート
-    model.load_state_dict(torch.load('drawing_model.pth'))
+    model.load_state_dict(torch.load('weather_model_v6.pth'))
     model.eval()
     
     dummy_input = torch.randn(1, 1, 28, 28).to(device)
     torch.onnx.export(
         model,
         dummy_input,
-        'weather_model.onnx',
+        'weather_model_v6.onnx',
         input_names=['input'],
         output_names=['output'],
         dynamic_axes={'input': {0: 'batch_size'}, 'output': {0: 'batch_size'}}
     )
     
-    print("ONNX model exported: weather_model.onnx")
+    print("ONNX model exported: weather_model_v6.onnx")
 
 if __name__ == '__main__':
     train_model()
