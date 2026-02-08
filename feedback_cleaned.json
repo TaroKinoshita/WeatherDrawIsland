@@ -1,0 +1,169 @@
+{
+  "feedbacks": [
+    {
+      "id": 21,
+      "image_path": "Img_Output/drawing_0006.png",
+      "user_label": "moon",
+      "predicted_class": "moon",
+      "predicted_score_sun": -0.8306782,
+      "predicted_score_moon": 4.888736,
+      "predicted_score_rain": -3.187452,
+      "is_correct": true,
+      "timestamp": "2026-02-02T23:57:42.1485247Z"
+    },
+    {
+      "id": 42,
+      "image_path": "Img_Output/drawing_0000.png",
+      "user_label": "moon",
+      "predicted_class": "moon",
+      "predicted_score_sun": -0.5003511,
+      "predicted_score_moon": 4.418893,
+      "predicted_score_rain": -2.884928,
+      "is_correct": true,
+      "timestamp": "2026-02-08T17:38:40.0380053Z"
+    },
+    {
+      "id": 45,
+      "image_path": "Img_Output/drawing_0003.png",
+      "user_label": "sun",
+      "predicted_class": "sun",
+      "predicted_score_sun": 3.889971,
+      "predicted_score_moon": -2.495307,
+      "predicted_score_rain": 0.4605484,
+      "is_correct": true,
+      "timestamp": "2026-02-08T17:39:16.5645593Z"
+    },
+    {
+      "id": 19,
+      "image_path": "Img_Output/drawing_0004.png",
+      "user_label": "moon",
+      "predicted_class": "moon",
+      "predicted_score_sun": -0.9094904,
+      "predicted_score_moon": 4.984243,
+      "predicted_score_rain": -3.081857,
+      "is_correct": true,
+      "timestamp": "2026-02-02T23:57:18.4067089Z"
+    },
+    {
+      "id": 20,
+      "image_path": "Img_Output/drawing_0005.png",
+      "user_label": "sun",
+      "predicted_class": "sun",
+      "predicted_score_sun": 4.196479,
+      "predicted_score_moon": -1.521725,
+      "predicted_score_rain": -0.9618018,
+      "is_correct": true,
+      "timestamp": "2026-02-02T23:57:32.3012885Z"
+    },
+    {
+      "id": 22,
+      "image_path": "Img_Output/drawing_0007.png",
+      "user_label": "rain",
+      "predicted_class": "sun",
+      "predicted_score_sun": 1.06027,
+      "predicted_score_moon": -0.006139381,
+      "predicted_score_rain": 0.3299148,
+      "is_correct": false,
+      "timestamp": "2026-02-02T23:57:56.9579467Z"
+    },
+    {
+      "id": 23,
+      "image_path": "Img_Output/drawing_0008.png",
+      "user_label": "rain",
+      "predicted_class": "rain",
+      "predicted_score_sun": 0.4523136,
+      "predicted_score_moon": -1.176101,
+      "predicted_score_rain": 2.5821,
+      "is_correct": true,
+      "timestamp": "2026-02-02T23:58:13.7292606Z"
+    },
+    {
+      "id": 24,
+      "image_path": "Img_Output/drawing_0009.png",
+      "user_label": "moon",
+      "predicted_class": "moon",
+      "predicted_score_sun": -0.6334357,
+      "predicted_score_moon": 4.659958,
+      "predicted_score_rain": -3.011819,
+      "is_correct": true,
+      "timestamp": "2026-02-02T23:58:24.0472628Z"
+    },
+    {
+      "id": 25,
+      "image_path": "Img_Output/drawing_0010.png",
+      "user_label": "sun",
+      "predicted_class": "sun",
+      "predicted_score_sun": 3.01113,
+      "predicted_score_moon": -2.573146,
+      "predicted_score_rain": 1.325032,
+      "is_correct": true,
+      "timestamp": "2026-02-02T23:58:36.5120834Z"
+    },
+    {
+      "id": 43,
+      "image_path": "Img_Output/drawing_0001.png",
+      "user_label": "sun",
+      "predicted_class": "sun",
+      "predicted_score_sun": 3.34829,
+      "predicted_score_moon": -3.293443,
+      "predicted_score_rain": 1.936889,
+      "is_correct": true,
+      "timestamp": "2026-02-08T17:38:51.7540944Z"
+    },
+    {
+      "id": 44,
+      "image_path": "Img_Output/drawing_0002.png",
+      "user_label": "rain",
+      "predicted_class": "rain",
+      "predicted_score_sun": 0.926406,
+      "predicted_score_moon": -0.5523818,
+      "predicted_score_rain": 1.486725,
+      "is_correct": true,
+      "timestamp": "2026-02-08T17:39:05.7020834Z"
+    },
+    {
+      "id": 26,
+      "image_path": "Img_Output/drawing_0011.png",
+      "user_label": "rain",
+      "predicted_class": "rain",
+      "predicted_score_sun": 1.281741,
+      "predicted_score_moon": -1.176501,
+      "predicted_score_rain": 1.58622,
+      "is_correct": true,
+      "timestamp": "2026-02-02T23:58:51.0857197Z"
+    },
+    {
+      "id": 27,
+      "image_path": "Img_Output/drawing_0012.png",
+      "user_label": "sun",
+      "predicted_class": "sun",
+      "predicted_score_sun": 3.306512,
+      "predicted_score_moon": -2.564807,
+      "predicted_score_rain": 0.7674834,
+      "is_correct": true,
+      "timestamp": "2026-02-02T23:59:01.4063295Z"
+    },
+    {
+      "id": 28,
+      "image_path": "Img_Output/drawing_0013.png",
+      "user_label": "moon",
+      "predicted_class": "moon",
+      "predicted_score_sun": -0.6896994,
+      "predicted_score_moon": 4.350114,
+      "predicted_score_rain": -2.743673,
+      "is_correct": true,
+      "timestamp": "2026-02-02T23:59:10.5292263Z"
+    },
+    {
+      "id": 29,
+      "image_path": "Img_Output/drawing_0014.png",
+      "user_label": "sun",
+      "predicted_class": "sun",
+      "predicted_score_sun": 2.733692,
+      "predicted_score_moon": -1.880204,
+      "predicted_score_rain": 0.9513554,
+      "is_correct": true,
+      "timestamp": "2026-02-02T23:59:22.3496099Z"
+    }
+  ]
+}
